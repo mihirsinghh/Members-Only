@@ -1,0 +1,22 @@
+{
+  "name": "members-only",
+  "version": "1.0.0",
+  "description": "A message board where users can write anonymous posts. However, only members can see who the author of each post is.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "watch": "node --watch app.js",
+    "db-setup": "node populateDB.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "passport": "^0.7.0"
+  }
+}
