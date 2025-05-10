@@ -1,6 +1,6 @@
-const db = require('./db/queryDB.js');
+const db = require('../db/queryDB.js');
 const passport = require('passport');
-const authFlow = require('./config/authenticationFlow.js');
+const authFlow = require('../config/authenticationFlow.js');
 
 passport.use(authFlow.strategy);
 
