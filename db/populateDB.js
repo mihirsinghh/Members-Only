@@ -1,5 +1,6 @@
 const pool = require('./pool.js');
 
+//table that stores each user and their info
 const createUserTable = `
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -14,6 +15,9 @@ const createUserTable = `
     INSERT INTO users (first_name, last_name, username, password, membership_status, admin_status)
     VALUES ('mihir', 'singh', 'mihirsingh', 'Tennis0817*', 'yes', 'yes');
 `
+
+//table that stores each sessions' data under its session ID
+/*
 const createSessionsTable = `
   CREATE TABLE IF NOT EXISTS "session" (
     "sid" varchar NOT NULL COLLATE "default",
@@ -24,7 +28,9 @@ const createSessionsTable = `
 
   CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
 `;
+*/
 
+//table that stores each posts' title and text content
 const createMessagesTable = `
     CREATE TABLE IF NOT EXISTS "messages" (
         id SERIAL PRIMARY KEY,
@@ -37,6 +43,7 @@ const createMessagesTable = `
     VALUES ('life is crazy', 'hey everyone, just realized that life is crazy');
 `
 
+//table that stores each user and their posts
 const createUserMessagesTable = `
     CREATE TABLE IF NOT EXISTS "user_messages" (
         user_id INT REFERENCES users(id),
