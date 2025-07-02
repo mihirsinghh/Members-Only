@@ -1,5 +1,15 @@
 const pool = require('./pool');
 
+//submits user info to database
+async function postUser(firstName, lastName, username, password) {
+    const insertQuery = `
+        INSERT INTO users (first_name, last_name, username, password, membership_status, admin_status)
+        VALUES ($1, $2, $3, $4, $5, $6)
+    `;
+    const values = [firstName, lastName, username, password, "yes", "yes"];
+    await pool.query(insertQuery, values);
+}
+
 async function getUser(username) {
     const getUserQuery = `
         SELECT * FROM users 
@@ -23,4 +33,5 @@ async function getUserByID(userID) {
 module.exports = {
     getUser,
     getUserByID,
+    postUser,
 };

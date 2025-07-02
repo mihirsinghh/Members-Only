@@ -4,6 +4,7 @@ const controller = require('../controllers/controller.js');
 
 router.get("/", controller.loadHomePage);
 router.get("/sign-up", controller.loadSignUpForm);
+router.post("/sign-up", controller.processSignup);
 router.get("/log-in", controller.loadLoginPage);
 
 module.exports = router;

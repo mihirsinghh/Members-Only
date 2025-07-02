@@ -17,7 +17,6 @@ const createUserTable = `
 `
 
 //table that stores each sessions' data under its session ID
-/*
 const createSessionsTable = `
   CREATE TABLE IF NOT EXISTS "session" (
     "sid" varchar NOT NULL COLLATE "default",
@@ -28,7 +27,7 @@ const createSessionsTable = `
 
   CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
 `;
-*/
+
 
 //table that stores each posts' title and text content
 const createMessagesTable = `
@@ -57,6 +56,7 @@ async function createTables() {
         await pool.query(createUserTable);
         await pool.query(createSessionsTable);
         await pool.query(createMessagesTable);
+        await pool.query(createUserMessagesTable);
         console.log("tables created in database");
     } catch (err) {
         console.log(err);
