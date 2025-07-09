@@ -6,32 +6,27 @@ async function postUser(firstName, lastName, username, password) {
         INSERT INTO users (first_name, last_name, username, password, membership_status, admin_status)
         VALUES ($1, $2, $3, $4, $5, $6)
     `;
-    const values = [firstName, lastName, username, password, "yes", "yes"];
-    await pool.query(insertQuery, values);
+    const values = [firstName, lastName, username, password, "no", "no"];
+    try {
+        await pool.query(insertQuery, values);
+    } catch (err) {
+        throw new Error('internal server error');
+    }
 }
 
-async function getUser(username) {
-    const getUserQuery = `
-        SELECT * FROM users 
-        WHERE username = $1;
+async function validateUniqueness(username) {
+    const validateQuery = `
+        SELECT * FROM users WHERE username = $1;
     `
-    const rows = await pool.query(getUserQuery, [username]);
-    const user = rows[0];
-    return user;
+    const values = [username];
+    const rows = await pool.query(validateQuery, values);
+    if (rows.length != 0) {
+        throw new Error('Username already exists');
+    }
 }
 
-async function getUserByID(userID) {
-    const getUserQuery = `
-        SELECT * FROM users
-        WHERE id = $1;
-    `
-    const rows = pool.query(getUserQuery, [userID]);
-    const user = rows[0];
-    return user;
-}
 
 module.exports = {
-    getUser,
-    getUserByID,
     postUser,
+    validateUniqueness
 };
