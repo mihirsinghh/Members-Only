@@ -24,7 +24,7 @@ async function processSignup(req, res) {
         console.log("user info posted to db");
 
     } catch(error) {
-        if (error.message === "Username is already taken") {
+        if (error.message === "Username already exists") {
             res.status(400).send(error.message);
         } else {
             console.log('error posting credentials to database');
