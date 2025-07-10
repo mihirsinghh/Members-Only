@@ -1,6 +1,16 @@
 const pool = require('./pool');
 
-//submits user info to database
+async function getUser(username) {
+    try {
+        const query = `SELECT * FROM users WHERE username = $1`;
+        return await pool.query(query, [username]);
+
+    } catch(err) {
+        console.log("username does not exist in db", err);
+        res.send(400);
+    }
+}
+
 async function postUser(firstName, lastName, username, password) {
     const insertQuery = `
         INSERT INTO users (first_name, last_name, username, password, membership_status, admin_status)
@@ -28,5 +38,6 @@ async function validateUniqueness(username) {
 
 module.exports = {
     postUser,
-    validateUniqueness
+    validateUniqueness,
+    getUser
 };

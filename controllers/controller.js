@@ -33,33 +33,9 @@ async function processSignup(req, res) {
     }
 }
 
-async function processLogin(req, res) {
-    const correctSecretCode = "secretcodehehe";
-    try {
-        //fetch user input from form
-        const username = req.body.username;
-        const password = req.body.password;
-        //if secret code inputted, check
-        if (req.body.secretcode) {
-            const userSecretCode = req.body.secretcode;
-        }
-        //check if username + pwd combo exists in db
-
-
-        //if valid credentials and correct code, load messages page with authors
-        //if valid credentials and incorrect code, load regular messages page
-        //if invalid credentials, return to login page
-    } catch(err) {
-    
-    }
-}
-
-
 module.exports = {
     loadHomePage,
     loadSignUpForm,
     loadLoginPage,
     processSignup,
-    processLogin
 };
-
