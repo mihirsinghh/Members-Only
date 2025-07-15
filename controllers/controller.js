@@ -1,14 +1,19 @@
 const db = require('../db/queryDB.js');
 
 function loadHomePage(req, res) {
+    //console.log('current user:', req.user.rows[0].username);
+    console.log('Accessing home page as: ', req.user);
     res.render("homePage.ejs");
 }
 
 function loadSignUpForm(req, res) {
+    console.log('Accessing signup page as:', req.user);
     res.render("signUpForm.ejs");
 }
 
 function loadLoginPage(req, res) {
+    //console.log('current user:', req.user.rows[0].username);
+    console.log('Accessing login page as: ', req.user);
     res.render("login-page.ejs");
 }
 
@@ -33,9 +38,15 @@ async function processSignup(req, res) {
     }
 }
 
+function loadMessageBoard(req, res, next) {
+    console.log('Viewing message board as: ', req.user);
+    res.render('messageBoard.ejs');
+}
+
 module.exports = {
     loadHomePage,
     loadSignUpForm,
     loadLoginPage,
     processSignup,
+    loadMessageBoard,
 };
