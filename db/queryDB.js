@@ -11,6 +11,15 @@ async function getUser(username) {
     }
 }
 
+async function getUserByID(id) {
+    try {
+        const query = `SELECT * FROM users WHERE id = $1`;
+        return await pool.query(query, [id]);
+    } catch(err) {
+        console.log("error fetching user by id: ", err);
+    }
+}
+
 async function postUser(firstName, lastName, username, password) {
     const insertQuery = `
         INSERT INTO users (first_name, last_name, username, password, membership_status, admin_status)
@@ -39,5 +48,6 @@ async function validateUniqueness(username) {
 module.exports = {
     postUser,
     validateUniqueness,
-    getUser
+    getUser,
+    getUserByID
 };

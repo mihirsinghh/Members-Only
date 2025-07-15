@@ -1,9 +1,18 @@
 <html>
   <head>
     <title>Log In</title>
+    <link rel="stylesheet" type="text/css" href="/css/loginPage.css">
   </head>
   <body>
-    <div>
+    <nav>
+      <div id = "navbar-container">
+        <a href = "/">Home</a>
+        <form id="logout-form" action="/log-out" method="POST" id = "logout-form">
+          <button type="submit">Log out</button>
+        </form>
+      </div>
+    </nav>
+    <div id = "main-container">
         <h1>Log In</h1>
         <form action = "log-in" method = "POST">
             <label for = "username"> Username: </label>
