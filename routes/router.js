@@ -17,6 +17,11 @@ router.post("/log-out", logoutMiddleware, (req, res, next) => {
     });
 });
 router.get('/message-board', controller.loadMessageBoard);
+router.get('/create-post', controller.loadCreatePostForm);
+router.post('/submit-post', controller.submitPost);
+router.get('/view-post/:author/:title', controller.loadPost);
+router.get("/become-member", controller.loadMembershipPage);
+router.post("/validate-member", controller.validateMembership);
 
 function authMiddleware(req, res, next) {
     console.log('authenticating credentials...');

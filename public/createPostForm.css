@@ -1,0 +1,108 @@
+/* tag selectors */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: rgb(230, 205, 205);
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    background-color: #dab9b9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+nav {
+    background-color: #dab9b9;
+}
+
+a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+a:hover {
+    font-weight: bold;
+    color: #1e05f8; /* Example color to "light up" the link */
+}
+
+
+
+/* id selectors */
+
+#main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Added to take up the full height of the viewport */
+}
+
+#navbar-container {
+    height: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+#content {
+    height: 150px;
+}
+
+#logout-form {
+    all: unset; /*resets form to its natural default settings before restyling - ensures that this form doesn't take on the form styles applied above*/
+    display: inline;
+    display: flex;
+    align-items: center;
+}
+
+#logout-form button {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+#logout-form button:hover {
+    font-weight: bold;
+    color: #1e05f8;
+}

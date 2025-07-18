@@ -1,23 +1,33 @@
 <html>
   <head>
     <title>Sign Up</title>
+    <link rel = "stylesheet" type = "text/css" href = "/css/signupPage.css">
   </head>
   <body>
-    <div>
-        <h1>Sign Up</h1>
-        <form action = "sign-up" method = "POST">
-            <label for = "first_name"> First Name: </label>
-            <input type = "text" id = "first_name" name = "first_name">
-            <label for = "last_name"> Last Name: </label>
-            <input type = "text" id = "last_name" name = "last_name">
-            <label for = "username"> Username: </label>
-            <input type = "text" id = "username" name = "username">
-            <label for = "password"> Password: </label>
-            <input type = "text" id = "password" name = "password">
-            <label for = "secretcode">Secret Code: </label>
-            <input type = "text" id = "secretcode" name = "secretcode">
-            <input type = "submit" value = "Submit">
-        </form>
+    <% if (error === 'duplicate') { %>
+      <script> 
+        alert('Username already exists!');
+      </script>
+    <% } %>
+    <nav>
+      <div id = "navbar-container">
+        <a href = "/">Home</a>
+      </div>
+    </nav>
+    <div id = "main-container">
+      <h1>Sign Up</h1>
+      <form action = "sign-up" method = "POST" id = "signup-form">
+        <label for = "first_name"> First Name: </label>
+        <input type = "text" id = "first_name" name = "first_name">
+        <label for = "last_name"> Last Name: </label>
+        <input type = "text" id = "last_name" name = "last_name">
+        <label for = "username"> Username: </label>
+        <input type = "text" id = "username" name = "username">
+        <label for = "password"> Password: </label>
+        <input type = "text" id = "password" name = "password">
+        <input type = "submit" value = "Submit">
+      </form>
     </div>
   </body>
+
 </html>

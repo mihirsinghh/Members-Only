@@ -4,17 +4,54 @@
     <link rel="stylesheet" type="text/css" href="/css/messageBoard.css">
   </head>
   <body>
-    <nav>
-      <div id = "navbar-container">
+
+    <% if (user) { %>
+      <nav>
+        <div id = "navbar-container-with-user">
+          <div class = "mini-navbar-container">
+            <a href = "/">Home</a>
+            <a href = "/create-post">Create post</a>
+            <% if (!isMember) { %>
+              <a href = "/become-member">Become a member</a>
+            <% } else { %>
+              <p>Thanks for being a valued member!</p>
+            <% } %>
+          </div>
+          <div class = "mini-navbar-container">
+            <p> Viewing as : <%= user %> </p>
+            <form id="logout-form" action="/log-out" method="POST">
+              <button type="submit">Log out</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    <% } else { %>
+      <nav id = "navbar-container"> 
         <a href = "/">Home</a>
-        <form id="logout-form" action="/log-out" method="POST" id = "logout-form">
-          <button type="submit">Log out</button>
-        </form>
-      </div>
-    </nav>
+        <a href = "/log-in">Log in</a>
+      </nav>
+    <% } %>
+    
     <div id = "main-container">
-        <h1>Message Board</h1>
-        
+      <h1>Message Board</h1>
+      <% if (posts) { %>
+        <div id = "messages-container">
+          <div id = "message-column">
+            <% posts.forEach(post => { %>
+              <div id = "message-container" onclick="window.location = '/view-post/<%= post.author %>/<%= post.title %>'">
+                <h2> <%= post.title %> </h2>
+                <% if (isMember) { %>
+                  <h3> <%= post.author %> - <%= post.relativeTime %> </h3>
+                <% } else { %>
+                  <h3> <%= post.relativeTime %> </h3>
+                <% } %>
+                <p> <%= post.text %> </p>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
     </div>
   </body>
+
 </html>

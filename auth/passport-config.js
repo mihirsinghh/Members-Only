@@ -36,7 +36,7 @@ function initialize(passport) {
 
   //tells passport what to store in the session if login is authenticated
   passport.serializeUser((user, done) => {
-    console.log('serializing user..storing user ID in session.');
+    console.log('serializing user..storing user ID in session with id: ', user.id);
     done(null, user.id); 
   });
 
@@ -44,9 +44,7 @@ function initialize(passport) {
   //tells passport how to extract the users' info and what to set req.user as 
   passport.deserializeUser(async (id, done) => {
     try {
-      console.log('deserializing user..checking session.');
       const userQueryResult = await db.getUserByID(id);
-      console.log('user detected. retrieving user info from database and setting user on request body.');
       const user = userQueryResult.rows[0].username;
       done(null, user); //sets req.user = username
 

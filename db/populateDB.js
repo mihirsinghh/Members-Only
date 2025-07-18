@@ -35,11 +35,12 @@ const createMessagesTable = `
         id SERIAL PRIMARY KEY,
         title TEXT NOT NULL,
         text TEXT NOT NULL,
+        author_id INT REFERENCES users(id) ON DELETE CASCADE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    INSERT INTO messages (title, text)
-    VALUES ('life is crazy', 'hey everyone, just realized that life is crazy');
+    INSERT INTO messages (title, text, author_id)
+    VALUES ('life is crazy', 'hey everyone, just realized that life is crazy', 1);
 `
 
 //table that stores each user and their posts
@@ -64,4 +65,3 @@ async function createTables() {
 }
 
 createTables();
-

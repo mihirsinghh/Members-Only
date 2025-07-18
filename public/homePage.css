@@ -22,7 +22,10 @@ a:hover {
     color: #1e05f8; /* Example color to "light up" the link */
 }
 
+
+
 /* class selectors */
+
 
 .button-container {
     display: flex;
@@ -30,4 +33,31 @@ a:hover {
     justify-content: space-evenly;
     align-items: center;
     gap: 10px;
+}
+
+
+
+/* id selectors */
+
+
+#logout-form {
+    all: unset; /*resets form to its natural default settings before restyling - ensures that this form doesn't take on the form styles applied above*/
+    display: inline;
+    display: flex;
+    align-items: center;
+}
+
+#logout-form button {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+#logout-form button:hover {
+    font-weight: bold;
+    color: #1e05f8;
 }

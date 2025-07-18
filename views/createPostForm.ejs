@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Create Post</title>
+    <link rel = "stylesheet" type = "text/css" href = "/css/createPostForm.css">
+  </head>
+  <body>
+    <% if (error === 'duplicate') { %>
+      <script>
+        alert("A post with this title already exists for this author!");
+      </script>
+    <% } %>
+    <nav>
+      <div id = "navbar-container">
+        <a href = "/">Home</a>
+        <a href = "/message-board">View Message Board</a>
+        <form id = "logout-form" action = "/log-out" method = "POST">
+          <button type = "submit">Log out</button>
+        </form>
+      </div>
+    </nav>
+    <div id = "main-container">
+      <h1>Create Post</h1>
+      <form action = "submit-post" method = "POST" id = "create-post-form">
+        <label for = "title"> Title </label>
+        <input type = "text" id = "title" name = "title">
+        <label for = "content">Content</label>
+        <input type = "text" id = "content" name = "content">
+        <input value = "Post" type = "submit"">
+      </form>
+    </div>
+  </body>
+</html>

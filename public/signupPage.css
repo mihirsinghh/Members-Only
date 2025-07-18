@@ -12,6 +12,26 @@ h1 {
     text-align: center;
 }
 
+form {
+    background-color: #dab9b9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 button {
     background-color: #4CAF50;
     color: white;
@@ -43,39 +63,19 @@ a:hover {
 
 /* class selectors */
 
-.mini-navbar-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-}
-
-
-
-/* id selectors */
-
 #main-container {
-    height: 100vh; /* Added to take up the full height of the viewport */
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Added to take up the full height of the viewport */
 }
 
 #navbar-container {
     height: 5%;
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    padding-left: 50px;
-    padding-right: 50px;
-}
-
-#navbar-container-with-user {
-    height: 5%;
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    gap: 20px;
     padding-left: 50px;
     padding-right: 50px;
 }
@@ -104,49 +104,4 @@ a:hover {
 #logout-form button:hover {
     font-weight: bold;
     color: #1e05f8;
-}
-
-#messages-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-#message-column {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    gap: 30px;
-}
-
-#message-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-width: 150px;
-    height: auto; /*height adjusts automatically to content*/
-    max-height: 300px; /*but does not exceed this limit*/
-    background-color: rgb(231, 202, 202);
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-#message-container p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 7; /* Adjust this number to control how many lines to show */
-    -webkit-box-orient: vertical;
-    margin: 0;
-    line-height: 1.4em;
-}
-
-#message-container:hover {
-    cursor: pointer;
 }

@@ -7,7 +7,7 @@ async function getUser(username) {
 
     } catch(err) {
         console.log("username does not exist in db", err);
-        res.send(400);
+        throw err; // Re-throw the error so it bubbles up to the controller
     }
 }
 
@@ -17,6 +17,7 @@ async function getUserByID(id) {
         return await pool.query(query, [id]);
     } catch(err) {
         console.log("error fetching user by id: ", err);
+        throw err; // Re-throw the error so it bubbles up to the controller
     }
 }
 
@@ -38,9 +39,79 @@ async function validateUniqueness(username) {
         SELECT * FROM users WHERE username = $1;
     `
     const values = [username];
-    const rows = await pool.query(validateQuery, values);
-    if (rows.length != 0) {
-        throw new Error('Username already exists');
+    const result = await pool.query(validateQuery, values);
+    if (result.rowCount == 0) {
+        return true;
+    }
+    return false;
+}
+
+async function validatePostUniqueness(author, title) {
+    const validateQuery = `
+        SELECT * FROM messages WHERE author = $1 AND title = $2
+    `;
+    try {
+        const queryResult = await pool.query(validateQuery, [author, title]);
+        const existingRows = queryResult.rowCount;
+        console.log('a post with this title and author combo already exists in the database this many times: ', existingRows);
+        if (existingRows > 0) {
+            return false; 
+        }
+        return true; 
+    } catch (error) {
+        console.log('error validating post uniqueness: ', error);
+        throw (error);
+    }
+}
+
+async function submitPostInfo(title, text, author) {
+    const query = `
+        INSERT INTO messages (title, text, author)
+        VALUES ($1, $2, $3)
+    `;
+    pool.query(query, [title, text, author])
+        .then(() => { console.log('updated database table with post info') })
+        .catch((err) => {
+            console.log('error submitting post info to table: ', err);
+            throw (err);
+    });
+}
+
+//retrieve all posts from the table (newest posts first)
+async function getAllPosts() {
+    const query = `
+        SELECT * FROM messages
+        ORDER BY created_at DESC
+    `;
+    return await pool.query(query);
+}
+
+//get specific post
+async function getPost(author, title) {
+    const query = `
+        SELECT * FROM messages WHERE author = $1 AND title = $2;
+    `
+    try {
+        return await pool.query(query, [author, title]);
+    } catch (err) {
+        console.log('error fetching post from table');
+        throw (err);
+    }
+}
+
+async function updateUserMembershipStatus(userID) {
+    console.log("updating user membership status for user with id: ", userID);
+    const query = `
+        UPDATE users 
+        SET membership_status = 'yes' 
+        WHERE id = $1
+    `;
+    try {
+        await pool.query(query, [userID]);
+        console.log("Successfully updated membership status to 'yes' for user ID:", userID);
+    } catch (err) {
+        console.log("Error updating user membership status:", err);
+        throw err;
     }
 }
 
@@ -48,6 +119,11 @@ async function validateUniqueness(username) {
 module.exports = {
     postUser,
     validateUniqueness,
+    validatePostUniqueness,
     getUser,
-    getUserByID
+    getUserByID,
+    submitPostInfo,
+    getAllPosts,
+    getPost,
+    updateUserMembershipStatus
 };

@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>Message Board</title>
+    <link rel="stylesheet" type="text/css" href="/css/viewPost.css">
+  </head>
+  <body>
+
+    <% if (user) { %>
+      <nav>
+        <div id = "navbar-container-with-user">
+          <div class = "mini-navbar-container">
+            <a href = "/">Home</a>
+            <a href = "/create-post">Create post</a>
+          </div>
+          <div class = "mini-navbar-container">
+            <p> Viewing as : <%= user %> </p>
+            <form id="logout-form" action="/log-out" method="POST">
+              <button type="submit">Log out</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    <% } else { %>
+      <nav id = "navbar-container"> 
+        <a href = "/">Home</a>
+        <a href = "/log-in">Log in</a>
+        <a href = "/message-board">View Message Board</a>
+      </nav>
+    <% } %>
+    
+    <div id = "main-container">
+        <% if (postInfo) { %>
+            <div id = "message-container">
+                <div id = "title-and-author-container">
+                    <h2> <%= postInfo.title %> </h2>
+                    <p> 
+                        <%= postInfo.author %>
+                        -
+                        <%= postInfo.time %> 
+                    </p>
+                </div> 
+                <p> <%= postInfo.text %> </p>
+            </div>
+        <% } %>
+    </div>
+
+  </body>
+
+</html>

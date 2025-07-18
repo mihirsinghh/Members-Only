@@ -4,10 +4,25 @@
     <link rel="stylesheet" type="text/css" href="/css/homePage.css">
   </head>
   <body>
+
+    <% if (user) { %>
+      <h1>Home</h1>
+      <p>Logged in as: <%= user %></p>
+      <div class = button-container>
+        <a href = "/message-board">View Message Board</a>
+        <a href = "join-club">Join the club</a>
+        <form id="logout-form" action="/log-out" method="POST">
+          <button type="submit">Log out</button>
+        </form>
+      </div>
+    <% } else { %>
       <h1>Welcome</h1>
       <div class = "button-container">
         <a href = "/sign-up">Sign up</a>
         <a href = "/log-in">Log in</a>
-      </div>
+        <a href = "/message-board">View Message Board</a>
+      </div> 
+    <% } %> 
+
   </body>
 </html>

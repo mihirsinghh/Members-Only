@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Membership Sign-Up</title>
+    <link rel="stylesheet" type="text/css" href="/css/membershipPage.css">
+  </head>
+  <body>
+    <nav>
+      <div id = "navbar-container">
+        <a href = "/">Home</a>
+        <div class = "mini-navbar-container">
+            <p> Viewing as : <%= user %> </p>
+            <form id="logout-form" action="/log-out" method="POST">
+              <button type="submit">Log out</button>
+            </form>
+        </div>
+      </div>
+    </nav>
+    <div id = "main-container">
+      <p>Enter the secret code correctly to become a member!</p>
+      <form action = "validate-member" method = "POST">
+          <label for = "secretcode"> Secret code: </label>
+          <input type = "text" id = "secretcode" name = "secretcode">
+          <input type = "submit" value = "Submit">
+      </form>
+      <% if (error === 'incorrect') { %>
+        <p style="color: red; margin-top: 10px;">Incorrect code</p>
+      <% } %>
+    </div>
+  </body>
+</html>
