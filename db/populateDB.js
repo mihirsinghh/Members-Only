@@ -31,25 +31,18 @@ const createSessionsTable = `
 
 //table that stores each posts' title and text content
 const createMessagesTable = `
-    CREATE TABLE IF NOT EXISTS "messages" (
+    DROP TABLE IF EXISTS "messages" CASCADE;
+    
+    CREATE TABLE "messages" (
         id SERIAL PRIMARY KEY,
         title TEXT NOT NULL,
         text TEXT NOT NULL,
-        author_id INT REFERENCES users(id) ON DELETE CASCADE,
+        author TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    INSERT INTO messages (title, text, author_id)
-    VALUES ('life is crazy', 'hey everyone, just realized that life is crazy', 1);
-`
-
-//table that stores each user and their posts
-const createUserMessagesTable = `
-    CREATE TABLE IF NOT EXISTS "user_messages" (
-        user_id INT REFERENCES users(id),
-        message_id INT REFERENCES messages(id),
-        PRIMARY KEY (user_id, message_id)
-    );
+    INSERT INTO messages (title, text, author)
+    VALUES ('life is crazy', 'hey everyone, just realized that life is crazy', 'mihirsingh');
 `
 
 async function createTables() {
@@ -57,8 +50,7 @@ async function createTables() {
         await pool.query(createUserTable);
         await pool.query(createSessionsTable);
         await pool.query(createMessagesTable);
-        await pool.query(createUserMessagesTable);
-        console.log("tables created in database");
+        console.log("tables successfully created in database");
     } catch (err) {
         console.log(err);
     }

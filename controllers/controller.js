@@ -39,6 +39,7 @@ async function processSignup(req, res) {
     }
 }
 
+
 async function loadMessageBoard(req, res, next) {
     console.log('Viewing message board as: ', req.user);
     console.log("Fetching all messages from table...");
@@ -49,13 +50,20 @@ async function loadMessageBoard(req, res, next) {
         ...post,
         relativeTime: getRelativeTime(post.created_at)
     }));
-    //fetch user object from DB
-    const userObject = await db.getUser(req.user);
-    //check membership status
-    const member = userObject.rows[0].membership_status;
-    //render message board accordingly
-    if (member === "yes") {
-        res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: true});
+    //if user is logged in, fetch details and render message board accordingly
+    if (req.user) {
+        //fetch user object from DB
+        const userObject = await db.getUser(req.user);
+        console.log("user object: ", userObject);
+        //check membership status
+        const member = userObject.rows[0].membership_status;
+        //render message board accordingly
+        if (member === "yes") {
+            res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: true});
+        } else {
+            res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: false});
+        }
+    //if no user logged in, render message board accordingly
     } else {
         res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: false});
     }
