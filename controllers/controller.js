@@ -8,8 +8,9 @@ function loadHomePage(req, res) {
 
 function loadSignUpForm(req, res) {
     const error = req.query.error;
+    const signupSuccess = req.query.success;
     console.log('Accessing signup page as:', req.user);
-    res.render("signUpForm.ejs", {error: error});
+    res.render("signUpForm.ejs", {error: error, success: signupSuccess});
 }
 
 function loadLoginPage(req, res) {
@@ -25,10 +26,11 @@ async function processSignup(req, res) {
         const password = req.body.password;
         
         const isUsernameUnique = await db.validateUniqueness(username);
+        
         if (isUsernameUnique) {
             await db.postUser(firstName, lastName, username, password);
             console.log("user info posted to db");
-            res.redirect("/");
+            res.redirect("sign-up/?success=true");
         } else {
             res.redirect("sign-up/?error=duplicate");
         }
@@ -38,7 +40,6 @@ async function processSignup(req, res) {
         res.status(500).send(error.message);
     }
 }
-
 
 async function loadMessageBoard(req, res, next) {
     console.log('Viewing message board as: ', req.user);
@@ -65,7 +66,7 @@ async function loadMessageBoard(req, res, next) {
         }
     //if no user logged in, render message board accordingly
     } else {
-        res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: false});
+        res.render('messageBoard.ejs', { user: null, posts: allPosts, isMember: null});
     }
 }
 
