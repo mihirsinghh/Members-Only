@@ -148,6 +148,11 @@ async function validateMembership(req, res) {
     }
 }
 
+function getAdminPage(req, res){
+    const error = req.params.error;
+    res.render("adminPage.ejs", {user: req.user, error: error});
+}
+
 
 module.exports = {
     loadHomePage,
@@ -159,5 +164,6 @@ module.exports = {
     submitPost,
     loadPost,
     loadMembershipPage,
-    validateMembership
+    validateMembership,
+    getAdminPage
 };
