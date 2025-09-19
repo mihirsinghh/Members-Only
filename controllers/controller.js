@@ -153,6 +153,33 @@ function getAdminPage(req, res){
     res.render("adminPage.ejs", {user: req.user, error: error});
 }
 
+async function validateAdmin(req, res) {
+    const inputtedPasscode = req.body.adminpasscode;
+    const correctAdminPasscode = "trustmeiamanadmin";
+
+    if (inputtedPasscode === correctAdminPasscode) {
+        //check if user is already an admin
+        //if so, load message board without updating admin status. Else, update status first.
+        const getUserObject = await db.getUser(req.user);
+        const userID = getUserObject.rows[0].id;
+        const alreadyAdmin = await db.checkAdmin(userID);
+
+        if (alreadyAdmin) {
+            console.log(`user ${req.user} already an admin. Loading message board...`);
+            res.redirect("/message-board");
+        } else {
+            try {
+                await db.updateAdminStatus(userID);
+                console.log(`successfully validated user ${req.user} with id: ${userID} as an administrator`);
+                res.redirect("/message-board");
+            } catch (err) {
+                console.log("error: ", err);
+                res.status(400).send('error validating admin status');
+            }
+        }
+    }
+}
+
 
 module.exports = {
     loadHomePage,
@@ -165,5 +192,6 @@ module.exports = {
     loadPost,
     loadMembershipPage,
     validateMembership,
-    getAdminPage
+    getAdminPage,
+    validateAdmin
 };
