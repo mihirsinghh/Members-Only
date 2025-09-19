@@ -8,7 +8,11 @@
       <div id = "navbar-container">
         <a href = "/">Home</a>
         <div class = "mini-navbar-container">
-            <p> Viewing as : <%= user %> </p>
+            <% if (admin === 'true') { %>
+                <p> Viewing as : <%= user %>/admin </p>
+            <% } else { %>
+                <p> Viewing as : <%= user %> </p>
+            <% } %>
             <form id="logout-form" action="/log-out" method="POST">
               <button type="submit">Log out</button>
             </form>
@@ -24,6 +28,8 @@
       </form>
       <% if (error === 'incorrect') { %>
         <p style="color: red; margin-top: 10px;">Incorrect passcode</p>
+      <% } else if (error === 'nouserloggedin') { %>
+        <p style="color: red; margin-top: 10px;">You must be logged in to access admin features. Please <a href="/log-in">log in</a> first.</p>
       <% } %>
     </div>
   </body>

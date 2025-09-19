@@ -115,6 +115,40 @@ async function updateUserMembershipStatus(userID) {
     }
 }
 
+//checks the admin_status value of the tuple corresponding to userID
+async function checkAdminStatus(userID) {
+    console.log("checking admin status for user with id: ", userID);
+    const query = `
+        SELECT admin_status FROM users WHERE id = $1
+    `;
+    try {
+        const result = await pool.query(query, [userID]);
+        if (result.rows.length > 0) {
+            const adminStatus = result.rows[0].admin_status;
+            console.log("Admin status for user ID", userID, ":", adminStatus);
+            return adminStatus === 'yes';
+        }
+        return false;
+    } catch (err) {
+        console.log("Error checking admin status:", err);
+        throw err;
+    }
+}
+
+async function updateAdminStatus(userID) {
+    const query = `
+        UPDATE users
+        SET admin_status = 'yes'
+        WHERE id = $1
+    `;
+    try {
+        await pool.query(query, [userID]);
+    } catch (err) {
+        console.log("error updating admin status for user");
+        throw err;
+    }
+}
+
 
 module.exports = {
     postUser,
@@ -125,5 +159,7 @@ module.exports = {
     submitPostInfo,
     getAllPosts,
     getPost,
-    updateUserMembershipStatus
+    updateUserMembershipStatus,
+    updateAdminStatus,
+    checkAdminStatus
 };

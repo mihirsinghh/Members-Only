@@ -23,6 +23,7 @@ router.get('/view-post/:author/:title', controller.loadPost);
 router.get("/become-member", controller.loadMembershipPage);
 router.post("/validate-member", controller.validateMembership);
 router.get("/admin", controller.getAdminPage);
+router.post("/validate-admin", controller.validateAdmin);
 
 function authMiddleware(req, res, next) {
     console.log('authenticating credentials...');

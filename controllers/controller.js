@@ -149,11 +149,18 @@ async function validateMembership(req, res) {
 }
 
 function getAdminPage(req, res){
-    const error = req.params.error;
-    res.render("adminPage.ejs", {user: req.user, error: error});
+    const error = req.query.error;
+    const admin = req.query.admin;
+    res.render("adminPage.ejs", {user: req.user, error: error, admin: admin});
 }
 
 async function validateAdmin(req, res) {
+    // Check if user is logged in first
+    if (!req.user) {
+        console.log('No user logged in, redirecting to admin page with error');
+        return res.redirect("/admin?error=nouserloggedin");
+    }
+
     const inputtedPasscode = req.body.adminpasscode;
     const correctAdminPasscode = "trustmeiamanadmin";
 
@@ -161,22 +168,26 @@ async function validateAdmin(req, res) {
         //check if user is already an admin
         //if so, load message board without updating admin status. Else, update status first.
         const getUserObject = await db.getUser(req.user);
+        console.log(getUserObject);
         const userID = getUserObject.rows[0].id;
-        const alreadyAdmin = await db.checkAdmin(userID);
+        const alreadyAdmin = await db.checkAdminStatus(userID);
 
         if (alreadyAdmin) {
             console.log(`user ${req.user} already an admin. Loading message board...`);
-            res.redirect("/message-board");
+            res.redirect("/message-board?admin=true");
         } else {
             try {
                 await db.updateAdminStatus(userID);
                 console.log(`successfully validated user ${req.user} with id: ${userID} as an administrator`);
-                res.redirect("/message-board");
+                res.redirect("/message-board?admin=true");
             } catch (err) {
                 console.log("error: ", err);
                 res.status(400).send('error validating admin status');
             }
         }
+
+    } else {
+        res.redirect("/admin?error=incorrect");
     }
 }
 
