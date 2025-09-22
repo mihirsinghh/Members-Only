@@ -6,60 +6,130 @@
   <body>
 
     <% if (user) { %>
-      <nav>
-        <div id = "navbar-container-with-user">
-          
-          <div class = "mini-navbar-container">
-            <a href = "/">Home</a>
-            <a href = "/create-post">Create post</a>
-            <% if (!isMember) { %>
-              <a href = "/become-member">Become a member</a>
-            <% } else { %>
-              <p>Thanks for being a valued member!</p>
-            <% } %>
-          </div>
 
-          <div class = "mini-navbar-container">
-            <% if (admin) { %>
+      <!-- User is logged in -->
+       
+      <% if (admin) { %>
+        <!-- Admin view -->
+        <nav>
+          <div id = "navbar-container-with-user">
+            
+            <div class = "mini-navbar-container">
+              <a href = "/">Home</a>
+              <a href = "/create-post">Create post</a>
+              <% if (!isMember) { %>
+                <a href = "/become-member">Become a member</a>
+              <% } else { %>
+                <p>Thanks for being a valued member!</p>
+              <% } %>
+            </div>
+
+            <div class = "mini-navbar-container">
               <p> Viewing as: <%= user %>/admin </p>
-            <% } else { %>
-              <p> Viewing as : <%= user %> </p>
-            <% } %>
-            <form id="logout-form" action="/log-out" method="POST">
-              <button type="submit">Log out</button>
-            </form>
-          </div>
+              <form id="logout-form" action="/log-out" method="POST">
+                <button type="submit">Log out</button>
+              </form>
+            </div>
 
+          </div>
+        </nav>
+        
+        <div id = "main-container">
+          <h1>Message Board - Admin View</h1>
+          <% if (posts) { %>
+            <div id = "messages-container">
+              <div id = "message-column">
+                <% posts.forEach(post => { %>
+                  <div id = "message-container" onclick="window.location = '/view-post/<%= post.author %>/<%= post.title %>'">
+                    <h2> <%= post.title %> </h2>
+                    <% if (isMember) { %>
+                      <h3> <%= post.author %> - <%= post.relativeTime %> </h3>
+                    <% } else { %>
+                      <h3> <%= post.relativeTime %> </h3>
+                    <% } %>
+                    <p> <%= post.text %> </p>
+                    <!-- Admin-specific controls -->
+                    <div class="admin-controls" style="margin-top: 10px; font-size: 12px; color: #666;">
+                      [Admin Controls] Edit | Delete | Manage
+                    </div>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
         </div>
-      </nav>
+
+      <% } else { %>
+        <!-- Non-admin user view -->
+        <nav>
+          <div id = "navbar-container-with-user">
+            
+            <div class = "mini-navbar-container">
+              <a href = "/">Home</a>
+              <a href = "/create-post">Create post</a>
+              <% if (!isMember) { %>
+                <a href = "/become-member">Become a member</a>
+              <% } else { %>
+                <p>Thanks for being a valued member!</p>
+              <% } %>
+            </div>
+
+            <div class = "mini-navbar-container">
+              <p> Viewing as : <%= user %> </p>
+              <form id="logout-form" action="/log-out" method="POST">
+                <button type="submit">Log out</button>
+              </form>
+            </div>
+
+          </div>
+        </nav>
+        
+        <div id = "main-container">
+          <h1>Message Board</h1>
+          <% if (posts) { %>
+            <div id = "messages-container">
+              <div id = "message-column">
+                <% posts.forEach(post => { %>
+                  <div id = "message-container" onclick="window.location = '/view-post/<%= post.author %>/<%= post.title %>'">
+                    <h2> <%= post.title %> </h2>
+                    <% if (isMember) { %>
+                      <h3> <%= post.author %> - <%= post.relativeTime %> </h3>
+                    <% } else { %>
+                      <h3> <%= post.relativeTime %> </h3>
+                    <% } %>
+                    <p> <%= post.text %> </p>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      <% } %>
 
     <% } else { %>
+      <!-- No user logged in -->
       <nav id = "navbar-container"> 
         <a href = "/">Home</a>
         <a href = "/log-in">Log in</a>
       </nav>
-    <% } %>
-    
-    <div id = "main-container">
-      <h1>Message Board</h1>
-      <% if (posts) { %>
-        <div id = "messages-container">
-          <div id = "message-column">
-            <% posts.forEach(post => { %>
-              <div id = "message-container" onclick="window.location = '/view-post/<%= post.author %>/<%= post.title %>'">
-                <h2> <%= post.title %> </h2>
-                <% if (isMember) { %>
-                  <h3> <%= post.author %> - <%= post.relativeTime %> </h3>
-                <% } else { %>
+      
+      <div id = "main-container">
+        <h1>Message Board</h1>
+        <% if (posts) { %>
+          <div id = "messages-container">
+            <div id = "message-column">
+              <% posts.forEach(post => { %>
+                <div id = "message-container" onclick="window.location = '/view-post/<%= post.author %>/<%= post.title %>'">
+                  <h2> <%= post.title %> </h2>
                   <h3> <%= post.relativeTime %> </h3>
-                <% } %>
-                <p> <%= post.text %> </p>
-              </div>
-            <% }) %>
+                  <p> <%= post.text %> </p>
+                </div>
+              <% }) %>
+            </div>
           </div>
-        </div>
-      <% } %>
-    </div>
+        <% } %>
+      </div>
+    <% } %>
   </body>
 
 </html>

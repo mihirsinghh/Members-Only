@@ -135,6 +135,26 @@ async function checkAdminStatus(userID) {
     }
 }
 
+//checks the membership_status value of the tuple corresponding to userID
+async function checkMembershipStatus(userID) {
+    console.log("checking membership status for user with id: ", userID);
+    const query = `
+        SELECT membership_status FROM users WHERE id = $1
+    `;
+    try {
+        const result = await pool.query(query, [userID]);
+        if (result.rows.length > 0) {
+            const membershipStatus = result.rows[0].membership_status;
+            console.log("Membership status for user ID", userID, ":", membershipStatus);
+            return membershipStatus === 'yes';
+        }
+        return false;
+    } catch (err) {
+        console.log("Error checking membership status:", err);
+        throw err;
+    }
+}
+
 async function updateAdminStatus(userID) {
     const query = `
         UPDATE users
@@ -161,5 +181,6 @@ module.exports = {
     getPost,
     updateUserMembershipStatus,
     updateAdminStatus,
-    checkAdminStatus
+    checkAdminStatus,
+    checkMembershipStatus
 };

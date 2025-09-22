@@ -53,14 +53,9 @@ async function loadMessageBoard(req, res, next) {
     }));
     //if user is logged in, fetch details and render message board accordingly
     if (req.user) {
-        //fetch user object from DB
         const userObject = await db.getUser(req.user);
-        //console.log("user object: ", userObject);
-        //check membership status
         const member = userObject.rows[0].membership_status;
-        //check admin status
         const admin = userObject.rows[0].admin_status;
-        //render message board accordingly
         if (member === "yes") {
             if (admin == 'yes') {
                 res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: true, admin: true});
@@ -68,7 +63,7 @@ async function loadMessageBoard(req, res, next) {
                 res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: true, admin: null});
             }
         } else {
-            res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: false});
+            res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: false, admin: null});
         }
     //if no user logged in, render message board accordingly
     } else {
@@ -136,21 +131,39 @@ function loadMembershipPage(req, res) {
 }
 
 async function validateMembership(req, res) {
+    // Check if user is logged in first
+    if (!req.user) {
+        console.log('No user logged in, redirecting to membership page with error');
+        return res.redirect("/become-member?error=nouserloggedin");
+    }
+
     const inputtedCode = req.body.secretcode;
     const correctCode = "hahaha";
-    try {
-        if (inputtedCode == correctCode) {
-            const getUserObject = await db.getUser(req.user);
-            const userID = getUserObject.rows[0].id;
-            await db.updateUserMembershipStatus(userID);
-            console.log(`successfully made user: ${req.user} with id: ${userID} a member!`);
+
+    if (inputtedCode === correctCode) {
+        //check if user is already a member
+        //if so, load message board without updating membership status. Else, update status first.
+        const getUserObject = await db.getUser(req.user);
+        console.log(getUserObject);
+        const userID = getUserObject.rows[0].id;
+        const alreadyMember = await db.checkMembershipStatus(userID);
+
+        if (alreadyMember) {
+            console.log(`user ${req.user} already a member. Loading message board...`);
             res.redirect("/message-board");
         } else {
-            res.redirect("/become-member?error=incorrect");
+            try {
+                await db.updateUserMembershipStatus(userID);
+                console.log(`successfully made user: ${req.user} with id: ${userID} a member!`);
+                res.redirect("/message-board");
+            } catch (err) {
+                console.log("error: ", err);
+                res.status(400).send('error updating membership status');
+            }
         }
-    } catch (err) {
-        console.log("error: ", err);
-        res.status(400).send('error updating membership status');
+
+    } else {
+        res.redirect("/become-member?error=incorrect");
     }
 }
 
