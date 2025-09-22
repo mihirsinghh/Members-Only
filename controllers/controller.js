@@ -55,18 +55,24 @@ async function loadMessageBoard(req, res, next) {
     if (req.user) {
         //fetch user object from DB
         const userObject = await db.getUser(req.user);
-        console.log("user object: ", userObject);
+        //console.log("user object: ", userObject);
         //check membership status
         const member = userObject.rows[0].membership_status;
+        //check admin status
+        const admin = userObject.rows[0].admin_status;
         //render message board accordingly
         if (member === "yes") {
-            res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: true});
+            if (admin == 'yes') {
+                res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: true, admin: true});
+            } else {
+                res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: true, admin: null});
+            }
         } else {
             res.render('messageBoard.ejs', { user: req.user, posts: allPosts, isMember: false});
         }
     //if no user logged in, render message board accordingly
     } else {
-        res.render('messageBoard.ejs', { user: null, posts: allPosts, isMember: null});
+        res.render('messageBoard.ejs', { user: null, posts: allPosts, isMember: null, admin: null});
     }
 }
 

@@ -8,6 +8,7 @@
     <% if (user) { %>
       <nav>
         <div id = "navbar-container-with-user">
+          
           <div class = "mini-navbar-container">
             <a href = "/">Home</a>
             <a href = "/create-post">Create post</a>
@@ -17,14 +18,21 @@
               <p>Thanks for being a valued member!</p>
             <% } %>
           </div>
+
           <div class = "mini-navbar-container">
-            <p> Viewing as : <%= user %> </p>
+            <% if (admin) { %>
+              <p> Viewing as: <%= user %>/admin </p>
+            <% } else { %>
+              <p> Viewing as : <%= user %> </p>
+            <% } %>
             <form id="logout-form" action="/log-out" method="POST">
               <button type="submit">Log out</button>
             </form>
           </div>
+
         </div>
       </nav>
+
     <% } else { %>
       <nav id = "navbar-container"> 
         <a href = "/">Home</a>
