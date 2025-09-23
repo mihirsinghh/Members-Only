@@ -14,12 +14,12 @@ async function loadHomePage(req, res) {
         } else if (isMember) {
             res.render("homePage.ejs", {user: req.user, isMember: true, isAdmin: false});
         } else {
-            res.render("homePage.ejs", {user: req.user, isMember: null, isAdmin: null});
+            res.render("homePage.ejs", {user: req.user, isMember: false, isAdmin: false});
         }
 
     } else {
         console.log("Accessing homepage as guest user");
-        res.render("homePage.ejs", {user: null, isMember: null, isAdmin: null});
+        res.render("homePage.ejs", {user: null, isMember: null});
     }
 }
 

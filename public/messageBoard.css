@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: rgb(230, 205, 205);
+    background-color: #F5E6D3;
     min-height: 100vh;
 }
 
@@ -24,21 +24,15 @@ button {
 }
 
 nav {
-    background-color: #dab9b9;
+    background-color: #E8D5C4;
 }
 
-a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
+/* Regular links should display inline to stay on the same line */
 
 a:hover {
     font-weight: bold;
     color: #1e05f8; /* Example color to "light up" the link */
 }
-
 
 
 /* class selectors */
@@ -47,8 +41,9 @@ a:hover {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
 }
+
 
 
 
@@ -65,6 +60,7 @@ a:hover {
     height: 5%;
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 20px;
     padding-left: 50px;
     padding-right: 50px;
@@ -117,24 +113,62 @@ a:hover {
 
 #message-column {
     display: flex;
-    flex-direction: column;
-    width: 30%;
-    gap: 30px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    gap: 40px;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 #message-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 150px;
-    height: auto; /*height adjusts automatically to content*/
-    max-height: 300px; /*but does not exceed this limit*/
-    background-color: rgb(231, 202, 202);
-    border: 1px solid #ddd;
+    width: 280px;
+    min-height: 220px;
+    max-height: 320px;
+    background-color: #E6D2B8;
+    border: 1px solid #D4C4A8;
     border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
+    padding: 20px;
+    padding-top: 30px;
+    box-shadow: 0 4px 8px rgba(139, 69, 19, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    color: #6F4E37;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#message-container::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle, #C0392B 30%, #E74C3C  40%, #C0392B 50%);
+    border-radius: 50%;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+#message-container::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #8B4513;
+    border-radius: 50%;
+    z-index: 11;
 }
 
 #message-container p {
@@ -149,4 +183,6 @@ a:hover {
 
 #message-container:hover {
     cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }

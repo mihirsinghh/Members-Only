@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: rgb(230, 205, 205);
+    background-color: #F5E6D3;
     min-height: 100vh;
     display: flex;
     flex-direction: column;

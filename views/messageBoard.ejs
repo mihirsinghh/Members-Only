@@ -76,6 +76,7 @@
 
             <div class = "mini-navbar-container">
               <p> Viewing as : <%= user %> </p>
+              <p>Admin? Click <a href = "/admin">here</a></p>
               <form id="logout-form" action="/log-out" method="POST">
                 <button type="submit">Log out</button>
               </form>
@@ -108,7 +109,7 @@
 
     <% } else { %>
       <!-- No user logged in -->
-      <nav id = "navbar-container"> 
+      <nav id = "navbar-container">
         <a href = "/">Home</a>
         <a href = "/log-in">Log in</a>
       </nav>
