@@ -1,9 +1,26 @@
 const db = require('../db/queryDB.js');
 const { getRelativeTime } = require('../utils/timeUtils.js');
 
-function loadHomePage(req, res) {
-    console.log('Accessing home page as: ', req.user);
-    res.render("homePage.ejs", { user: req.user });
+async function loadHomePage(req, res) {
+    //check if user is member and render accordingly
+    if (req.user) {
+        console.log('Accessing home page as: ', req.user);
+        const userObject = await db.getUser(req.user);
+        const userID = userObject.rows[0].id;
+        const isMember = await db.checkMembershipStatus(userID);
+        const isAdmin = await db.checkAdminStatus(userID);
+        if (isAdmin) {
+            res.render("homePage.ejs", {user: req.user, isMember: true, isAdmin: true});
+        } else if (isMember) {
+            res.render("homePage.ejs", {user: req.user, isMember: true, isAdmin: false});
+        } else {
+            res.render("homePage.ejs", {user: req.user, isMember: null, isAdmin: null});
+        }
+
+    } else {
+        console.log("Accessing homepage as guest user");
+        res.render("homePage.ejs", {user: null, isMember: null, isAdmin: null});
+    }
 }
 
 function loadSignUpForm(req, res) {
@@ -125,10 +142,8 @@ async function loadPost(req, res) {
 }
 
 function loadMembershipPage(req, res) {
-    if (!req.user) {
-        res.render("membershipPage.ejs", {user: null, error: 'nouserloggedin'});
-    }
-    res.render("membershipPage.ejs", {user: req.user, error: null});
+    const error = req.query.error;
+    res.render("membershipPage.ejs", {user: req.user, error: error});
 }
 
 async function validateMembership(req, res) {
@@ -145,7 +160,6 @@ async function validateMembership(req, res) {
         //check if user is already a member
         //if so, load message board without updating membership status. Else, update status first.
         const getUserObject = await db.getUser(req.user);
-        console.log(getUserObject);
         const userID = getUserObject.rows[0].id;
         const alreadyMember = await db.checkMembershipStatus(userID);
 

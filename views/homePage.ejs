@@ -4,19 +4,36 @@
     <link rel="stylesheet" type="text/css" href="/css/homePage.css">
   </head>
   <body>
+    <h1>Home</h1>
 
     <% if (user) { %>
-      <h1>Home</h1>
       <p>Logged in as: <%= user %></p>
-      <div class = button-container>
-        <a href = "/message-board">View Message Board</a>
-        <a href = "/become-member">Join the club</a>
-        <form id="logout-form" action="/log-out" method="POST">
-          <button type="submit">Log out</button>
-        </form>
-      </div>
+      <% if (isAdmin) { %>
+        <div class = button-container>
+          <a href = "/message-board">View Message Board</a>
+          <form id="logout-form" action="/log-out" method="POST">
+            <button type="submit">Log out</button>
+          </form>
+        </div>
+      <% } else if (isMember) { %>
+        <div class = button-container>
+          <a href = "/message-board">View Message Board</a>
+          <a href = "/admin">Sign in as admin</a>
+          <form id="logout-form" action="/log-out" method="POST">
+            <button type="submit">Log out</button>
+          </form>
+        </div>
+      <% } else { %>
+        <div class = button-container>
+          <a href = "/message-board">View Message Board</a>
+          <a href = "/become-member">Join the club</a>
+          <form id="logout-form" action="/log-out" method="POST">
+            <button type="submit">Log out</button>
+          </form>
+        </div>
+      <% } %>
+
     <% } else { %>
-      <h1>Welcome</h1>
       <div class = "button-container">
         <a href = "/sign-up">Sign up</a>
         <a href = "/log-in">Log in</a>

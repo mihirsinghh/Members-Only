@@ -18,8 +18,7 @@
     <div id = "main-container">
       <p>Enter the secret code correctly to become a member!</p>
       <p class="button-container">
-        Admin?
-        <a href="/admin">Click here</a>
+        Admin? <a href="/admin">Click here</a>
       </p>
       <form action = "validate-member" method = "POST">
           <label for = "secretcode"> Secret code: </label>
@@ -29,7 +28,7 @@
       <% if (error === 'incorrect') { %>
         <p style="color: red; margin-top: 10px;">Incorrect code</p>
       <% } %>
-      <% if (error = 'nouserloggedin') { %>
+      <% if (error === 'nouserloggedin') { %>
         <p style="color: red; margin-top: 10px;">Must be logged in first </p>
       <% } %>
     </div>
