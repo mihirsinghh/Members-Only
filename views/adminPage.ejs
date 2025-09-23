@@ -30,6 +30,8 @@
         <p style="color: red; margin-top: 10px;">Incorrect passcode</p>
       <% } else if (error === 'nouserloggedin') { %>
         <p style="color: red; margin-top: 10px;">You must be logged in to access admin features. Please <a href="/log-in">log in</a> first.</p>
+      <% } else if (error === 'notamember') { %>
+        <p style="color: red; margin-top: 10px;">Must be a member to claim admin status</p>
       <% } %>
     </div>
   </body>

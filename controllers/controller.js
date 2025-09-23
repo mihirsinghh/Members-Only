@@ -184,11 +184,18 @@ async function validateAdmin(req, res) {
     const correctAdminPasscode = "trustmeiamanadmin";
 
     if (inputtedPasscode === correctAdminPasscode) {
+        const getUserObject = await db.getUser(req.user);
+        const userID = getUserObject.rows[0].id;
+
+        //ensure user is a member
+        const isMember = await db.checkMembershipStatus(userID);
+        if (!isMember) {
+            console.log(`user ${req.user} is not a member. Redirecting back to sign-in...`)
+            res.redirect("/admin?error=notamember");
+        }
+
         //check if user is already an admin
         //if so, load message board without updating admin status. Else, update status first.
-        const getUserObject = await db.getUser(req.user);
-        console.log(getUserObject);
-        const userID = getUserObject.rows[0].id;
         const alreadyAdmin = await db.checkAdminStatus(userID);
 
         if (alreadyAdmin) {
