@@ -14,7 +14,6 @@ function loadSignUpForm(req, res) {
 }
 
 function loadLoginPage(req, res) {
-    console.log('Accessing login page as: ', req.user);
     res.render("login-page.ejs");
 }
 
@@ -126,8 +125,10 @@ async function loadPost(req, res) {
 }
 
 function loadMembershipPage(req, res) {
-    const error = req.query.error;
-    res.render("membershipPage.ejs", {user: req.user, error: error});
+    if (!req.user) {
+        res.render("membershipPage.ejs", {user: null, error: 'nouserloggedin'});
+    }
+    res.render("membershipPage.ejs", {user: req.user, error: null});
 }
 
 async function validateMembership(req, res) {
