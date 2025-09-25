@@ -42,7 +42,14 @@ a:hover {
 
 p {
     width: auto; /*container will stretch to fit text*/
-    max-width: 1500px; /*but not beyond this width*/
+    max-width: 800px; /*but not beyond this width for better readability*/
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    hyphens: auto;
+    white-space: normal;
+    line-height: 1.6;
+    text-align: left;
 }
 
 /* class selectors */

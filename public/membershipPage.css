@@ -27,12 +27,7 @@ nav {
     background-color: #E8D5C4;
 }
 
-a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
+
 
 a:hover {
     font-weight: bold;

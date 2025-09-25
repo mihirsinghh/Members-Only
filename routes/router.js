@@ -7,7 +7,7 @@ router.get("/", controller.loadHomePage);
 router.get("/sign-up", controller.loadSignUpForm);
 router.post("/sign-up", controller.processSignup);
 router.get("/log-in", controller.loadLoginPage);
-router.post("/log-in", authMiddleware, passport.authenticate('local', {successRedirect: '/message-board', failureRedirect: '/log-in'}));
+router.post("/log-in", authMiddleware, passport.authenticate('local', {successRedirect: '/message-board', failureRedirect: '/log-in?error=incorrectlogininfo'}));
 router.post("/log-out", logoutMiddleware, (req, res, next) => {
     req.logout((err) => {
         if (err) {

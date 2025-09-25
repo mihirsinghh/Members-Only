@@ -29,19 +29,20 @@
     <% } %>
     
     <div id = "main-container">
-        <% if (postInfo) { %>
-            <div id = "message-container">
-                <div id = "title-and-author-container">
-                    <h2> <%= postInfo.title %> </h2>
-                    <p> 
-                        <%= postInfo.author %>
-                        -
-                        <%= postInfo.time %> 
-                    </p>
-                </div> 
-                <p> <%= postInfo.text %> </p>
-            </div>
-        <% } %>
+      <% if (postInfo) { %>
+        <div id = "message-container">
+            <div id = "title-and-author-container">
+              <% if (isMember) { %>
+                <h2> <%= postInfo.title %> </h2>
+                <p> <%= postInfo.author %> - <%= postInfo.time %> </p>
+              <% } else { %>
+                <h2> <%= postInfo.title %> </h2>
+                <p> <%= postInfo.time %> </p>
+              <% } %>
+            </div> 
+          <p> <%= postInfo.text %> </p>
+        </div>
+      <% } %>
     </div>
 
   </body>

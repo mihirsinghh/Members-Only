@@ -23,13 +23,26 @@ form {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+textarea {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+    vertical-align: top;
+    text-align: left;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 button {
@@ -81,9 +94,6 @@ a:hover {
     padding-right: 50px;
 }
 
-#content {
-    height: 150px;
-}
 
 #logout-form {
     all: unset; /*resets form to its natural default settings before restyling - ensures that this form doesn't take on the form styles applied above*/

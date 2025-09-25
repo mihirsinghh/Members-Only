@@ -31,7 +31,8 @@ function loadSignUpForm(req, res) {
 }
 
 function loadLoginPage(req, res) {
-    res.render("login-page.ejs");
+    const error = req.query.error;
+    res.render("login-page.ejs", {error: error});
 }
 
 async function processSignup(req, res) {
@@ -117,27 +118,44 @@ async function submitPost(req, res, next) {
 }
 
 async function loadPost(req, res) {
+    //obtain post info
     const author = req.params.author;
     const title = req.params.title;
-    try {
-        const queryResult = await db.getPost(author, title);
-        console.log("loading post with following info: ", queryResult.rows[0]);
-        const postAuthor = queryResult.rows[0].author;
-        const postTitle = queryResult.rows[0].title;
-        const postText = queryResult.rows[0].text;
-        const timestamp = queryResult.rows[0].created_at;
-        const relativeTime = getRelativeTime(timestamp);
+
+    const queryResult = await db.getPost(author, title);
+    const postAuthor = queryResult.rows[0].author;
+    const postTitle = queryResult.rows[0].title;
+    const postText = queryResult.rows[0].text;
+    const timestamp = queryResult.rows[0].created_at;
+    const relativeTime = getRelativeTime(timestamp);
+
+
+    //if user logged in, check membership status and load post accordingly
+    if (req.user) {
+        const userObject = await db.getUser(req.user);
+        const member = userObject.rows[0].membership_status;
+        if (member === 'yes') {
+            res.render("viewPost.ejs", {
+                user: req.user,
+                postInfo: {
+                    author: postAuthor,
+                    title: postTitle,
+                    text: postText,
+                    time: relativeTime
+                },
+                isMember: true
+            });
+        }
+    } else {
         res.render("viewPost.ejs", {
             user: req.user,
             postInfo: {
-                author: postAuthor,
                 title: postTitle,
                 text: postText,
                 time: relativeTime
-        } });
-    } catch (error) {
-        console.log('error: ', error);
-        res.status(400).send('error loading post');
+            },
+            isMember: false
+        });
     }
 }
 
