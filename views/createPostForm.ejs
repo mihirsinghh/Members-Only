@@ -8,6 +8,14 @@
       <script>
         alert("A post with this title already exists for this author!");
       </script>
+    <% } else if (error === 'emptytitle') { %>
+      <script>
+        alert("Title cannot be empty!");
+      </script>
+    <% } else if (error === 'emptycontent') { %>
+      <script>
+        alert("Content cannot be empty!");
+      </script>
     <% } %>
     <nav>
       <div id = "navbar-container">

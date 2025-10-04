@@ -99,6 +99,18 @@ async function submitPost(req, res, next) {
         const title = req.body.title;
         const content = req.body.content;
         const author = req.user;
+        
+        // Validate that title and content are not empty
+        if (!title || title.trim() === '') {
+            console.log('Post submission rejected: empty title');
+            return res.redirect("/create-post?error=emptytitle");
+        }
+        
+        if (!content || content.trim() === '') {
+            console.log('Post submission rejected: empty content');
+            return res.redirect("/create-post?error=emptycontent");
+        }
+        
         console.log('validating post uniqueness...');
         const valid = await db.validatePostUniqueness(author, title);
         if (valid) {
@@ -144,6 +156,16 @@ async function loadPost(req, res) {
                     time: relativeTime
                 },
                 isMember: true
+            });
+        } else {
+            res.render("viewPost.ejs", {
+            user: req.user,
+            postInfo: {
+                    title: postTitle,
+                    text: postText,
+                    time: relativeTime
+                },
+                isMember: false
             });
         }
     } else {
@@ -250,6 +272,23 @@ async function validateAdmin(req, res) {
     }
 }
 
+async function deletePost(req, res) {
+    try {
+        const author = req.params.author;
+        const title = req.params.title;
+        
+        console.log(`Admin ${req.user} attempting to delete post "${title}" by ${author}`);
+        
+        await db.deletePost(author, title);
+        console.log(`Successfully deleted post "${title}" by ${author}`);
+        
+        res.redirect('/message-board');
+    } catch (err) {
+        console.log("Error deleting post:", err);
+        res.status(500).send('Error deleting post');
+    }
+}
+
 
 module.exports = {
     loadHomePage,
@@ -263,5 +302,6 @@ module.exports = {
     loadMembershipPage,
     validateMembership,
     getAdminPage,
-    validateAdmin
+    validateAdmin,
+    deletePost
 };

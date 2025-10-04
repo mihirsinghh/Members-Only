@@ -24,6 +24,7 @@ router.get("/become-member", controller.loadMembershipPage);
 router.post("/validate-member", controller.validateMembership);
 router.get("/admin", controller.getAdminPage);
 router.post("/validate-admin", controller.validateAdmin);
+router.post("/delete-post/:author/:title", controller.deletePost);
 
 function authMiddleware(req, res, next) {
     console.log('authenticating credentials...');

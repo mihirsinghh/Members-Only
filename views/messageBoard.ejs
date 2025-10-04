@@ -17,11 +17,7 @@
             <div class = "mini-navbar-container">
               <a href = "/">Home</a>
               <a href = "/create-post">Create post</a>
-              <% if (!isMember) { %>
-                <a href = "/become-member">Become a member</a>
-              <% } else { %>
-                <p>Thanks for being a valued member!</p>
-              <% } %>
+              <p>Thanks for being a valued member!</p>
             </div>
 
             <div class = "mini-navbar-container">
@@ -49,8 +45,10 @@
                     <% } %>
                     <p> <%= post.text %> </p>
                     <!-- Admin-specific controls -->
-                    <div class="admin-controls" style="margin-top: 10px; font-size: 12px; color: #666;">
-                      [Admin Controls] Edit | Delete | Manage
+                    <div class="admin-controls" style="margin-top: 10px; font-size: 12px;">
+                      <form action="/delete-post/<%= post.author %>/<%= post.title %>" method="POST" style="display: inline;" onclick="event.stopPropagation()">
+                        <button type="submit" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; font-size: 12px;">Delete</button>
+                      </form>
                     </div>
                   </div>
                 <% }) %>
@@ -76,7 +74,9 @@
 
             <div class = "mini-navbar-container">
               <p> Viewing as : <%= user %> </p>
-              <p>Admin? Click <a href = "/admin">here</a></p>
+              <% if (isMember) { %>
+                <p>Admin? Click <a href = "/admin">here</a></p>
+              <% } %>
               <form id="logout-form" action="/log-out" method="POST">
                 <button type="submit">Log out</button>
               </form>

@@ -169,6 +169,19 @@ async function updateAdminStatus(userID) {
     }
 }
 
+async function deletePost(author, title) {
+    const query = `
+        DELETE FROM messages WHERE author = $1 AND title = $2
+    `;
+    try {
+        await pool.query(query, [author, title]);
+        console.log(`Successfully deleted post "${title}" by ${author}`);
+    } catch (err) {
+        console.log("Error deleting post:", err);
+        throw err;
+    }
+}
+
 
 module.exports = {
     postUser,
@@ -182,5 +195,6 @@ module.exports = {
     updateUserMembershipStatus,
     updateAdminStatus,
     checkAdminStatus,
-    checkMembershipStatus
+    checkMembershipStatus,
+    deletePost
 };

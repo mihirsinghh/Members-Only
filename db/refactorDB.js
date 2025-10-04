@@ -23,6 +23,10 @@ const deleteAllMessagesQuery = `
     DELETE FROM messages
 `;
 
+const deleteAllUsersQuery = `
+    DELETE FROM users
+`;
+
 async function recreateMessages() {
     try {
         await pool.query(recreateMessagesTable);
@@ -45,4 +49,26 @@ async function deleteMessages() {
     }
 }
 
-recreateMessages();
+async function deleteUsers() {
+    try {
+        await pool.query(deleteAllUsersQuery);
+        console.log('deleted all users from table');
+    } catch (err) {
+        console.error('error deleting all users: ', err);
+    }
+}
+
+async function addBaseUser() {
+    const query = 
+    `
+        INSERT INTO users (first_name, last_name, username, password, membership_status, admin_status)
+        VALUES ($1, $2, $3, $4, $5, $6)
+    `;
+    const values = ['Mihir', 'Singh', 'mihirsingh', 'Tennis0817*', 'yes', 'yes'];
+    try {
+        await pool.query(query, values);
+    } catch (err) {
+        console.log("error adding base user: ", err);
+    }
+}
+
